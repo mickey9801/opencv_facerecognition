@@ -1,5 +1,4 @@
-OpenCV Face Recognition with Python
------------------------------------
+# OpenCV Face Recognition with Python
 
 Face recognition sample with opencv-python.
 
