@@ -1,4 +1,4 @@
-# OpenCV Face Recognition using Raspberry Pi
+# Face Recognition using OpenCV and Raspberry Pi
 
 Face recognition sample with opencv-python.
 
