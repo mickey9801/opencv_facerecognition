@@ -1,5 +1,6 @@
 dataset/*
 recognizer/*
+threading/__pycache__/*
 database.db
 haarcascade_frontalface_default.xml
 
