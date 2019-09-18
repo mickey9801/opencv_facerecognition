@@ -32,8 +32,7 @@ unlockDuration = 5 # n second
 font = cv2.FONT_HERSHEY_SIMPLEX
 
 # Connect to video source
-#vSource = "rtsp://mickey:ekids@192.168.240.97:8554/live.sdp"
-#vSource = "rtsp://mickey:ekids@192.168.1.91:8554/live.sdp"
+#vSource = "rtsp://192.168.1.100:8554/live.sdp" # RTSP URL of IP Cam
 vSource = 0 # first USB webcam
 vStream = cv2.VideoCapture(vSource)
 

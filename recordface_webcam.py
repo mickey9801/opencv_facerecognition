@@ -18,14 +18,14 @@ if not os.path.exists(dirName):
 
 name = input("What's his/her Name?")
 
+imgCapture = 30
 saveFace = False
 frameColor = (0,0,255)
 userDir = "User_"
 beginTime = 0
 
 # Connect to video source
-#vSource = "rtsp://mickey:ekids@192.168.240.169:8554/live.sdp"
-#vSource = "rtsp://mickey:ekids@192.168.1.91:8554/live.sdp"
+#vSource = "rtsp://192.168.1.100:8554/live.sdp" # RTSP URL of IP Cam
 vSource = 0 # first USB webcam
 vStream = cv2.VideoCapture(vSource)
 
@@ -70,7 +70,7 @@ while vStream.isOpened():
             os.makedirs(userDir)
     
     # Quit face detection when captured 30 images
-    if count > 30:
+    if count > imgCapture:
         break
 
 # Clean up

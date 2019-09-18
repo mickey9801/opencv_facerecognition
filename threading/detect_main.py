@@ -7,9 +7,8 @@ from Detector import Detector
 #from Show import Show
 
 # Connect to video source
-#vSource = "rtsp://mickey:ekids@192.168.240.97:8554/live.sdp"
-#vSource = "rtsp://mickey:ekids@192.168.1.91:8554/live.sdp"
-vSource = 0
+#vSource = "rtsp://192.168.1.100:8554/live.sdp" # RTSP URL of IP Cam
+vSource = 0 # first USB webcam
 
 cname = "../haarcascade_frontalface_default.xml"
 dname = "../database.db" # Database file
