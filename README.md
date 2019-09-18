@@ -23,7 +23,7 @@ Face recognition sample with opencv-python.
 
 * Classifiers file: haarcascade_frontalface_default.xml
    
-   This is a pre-trained cascade classifier file for face detection provided by OpenCV. You may download the file in [OpenCV's GitHub](https://github.com/opencv/opencv/tree/master/data/haarcascades)
+   This is a pre-trained cascade classifier file for face detection provided by OpenCV. You may download the file in [OpenCV's GitHub](https://github.com/opencv/opencv/tree/master/data/haarcascades) and store it in the project root (same directory of `setup.py`).
 
 ## Usage
 
