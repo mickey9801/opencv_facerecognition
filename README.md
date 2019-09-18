@@ -58,9 +58,11 @@ python3 detector_webcam.py # for using webcam
 python3 detector_picam.py # for using PiCam v2
 ```
 
+When the program detected a face, it will retrieve user information from SQLite database, and show target person's name in video window.
+
 ## Multi-threading Detection
 
-Because face recognition consume a lot of computer power, we can only recognize face in 5 fps with Raspberry Pi 4 (4GB) when using IP cam, if we are using single threading manner. We may release more computer power by writing the code in multi-threading manner.
+Because face recognition using IP cam (via RTSP) consume a lot of computer power, we can only recognize face 5 times per second with Raspberry Pi 4 (4GB) when using single threading manner. We may release more computer power of Raspberry Pi by writing the code in multi-threading manner.
 
 Codes in `threading` directory is multi-threading version of detector script, which is for webcam or IP cam.
 
@@ -69,6 +71,4 @@ cd threading
 python3 detect_main.py
 ```
 
-When the program recognized a face, it will retrieve user information from SQLite database, and show target person's name in video window.
-
-NB: The `Show` object in `Show.py` is used only for evaluate simple video capture in multi-threading manner.
+NB: The `Show` module in `Show.py` is used only for evaluate simple video capture in multi-threading manner.
