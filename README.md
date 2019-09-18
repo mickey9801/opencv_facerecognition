@@ -62,7 +62,7 @@ When the program detected a face, it will retrieve user information from SQLite 
 
 ## Multi-threading Detection
 
-Because face recognition using IP cam (via RTSP) consume a lot of computer power, we can only recognize face 5 times per second with Raspberry Pi 4 (4GB) when using single threading manner. We may release more computer power of Raspberry Pi by writing the code in multi-threading manner.
+Because face recognition using IP cam (via RTSP) consume a lot of computer power, we can only recognize face 5 times per second with Raspberry Pi 4 (4GB) with single threading. We may release more computer power of Raspberry Pi by writing the code in multi-threading manner.
 
 Codes in `threading` directory is multi-threading version of detector script, which is for webcam or IP cam.
 
