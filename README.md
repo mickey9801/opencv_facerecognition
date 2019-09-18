@@ -71,4 +71,4 @@ cd threading
 python3 detect_main.py
 ```
 
-NB: The `Show` module in `Show.py` is used only for evaluate simple video capture in multi-threading manner.
+NB: The `Show` module in `Show.py` is used only for evaluating simple video capture in multi-threading manner.
