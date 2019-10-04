@@ -9,16 +9,15 @@ Face recognition sample with opencv-python.
    OpenCV with Python 3 interface
 
    ```bash
-   sudo apt update
-   sudo apt install python3-opencv
+   sudo apt-get update && sudo apt-get upgrade
+   sudo apt-get install python3-opencv
    ```
 * DB Browser for SQLite
    
    This software is used for browsing user data stored in SQLite database file.
    
    ```bash
-   sudo apt update
-   sudo apt install sqlitebrowser
+   sudo apt-get install sqlitebrowser
    ```
 
 * Classifiers file: haarcascade_frontalface_default.xml
@@ -27,7 +26,7 @@ Face recognition sample with opencv-python.
 
 ## Usage
 
-Before using any program, please run the `setup.py` script to prepare an empty SQLite database for storing user inforamtion.
+Before using any program, please run the `setup.py` script to initialize an empty SQLite database for storing user information.
 
 ```bash
 cd opencv_facerecognition
