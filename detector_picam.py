@@ -1,4 +1,10 @@
+# detector_webcam.py
+# Finding the person in front of the camera is anyone who stored in database
+# Using Pi Camera v2 module (single threading)
+#
+# Project: Face Recognition using OpenCV and Raspberry Pi
 # Ref: https://www.pytorials.com/face-recognition-using-opencv-part-3/
+# By: Mickey Chan @ 2019
 
 # Import required modules
 import cv2
@@ -19,7 +25,7 @@ if not os.path.isfile(fname):
     print("Please train the data first")
     exit(0)
 
-# Setup GPIO for unlock LED
+# Setup GPIO for door lock
 relayPin = 26
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(relayPin, GPIO.OUT)
@@ -37,24 +43,24 @@ camera.resolution = (640, 480)
 camera.framerate = 30
 rawCapture = PiRGBArray(camera, size=(640, 480))
 
-# Setup Classifier for detect face
+# Setup Classifier for detecting face
 faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 # Setup LBPH recognizer for face recognition
 recognizer = cv2.face.createLBPHFaceRecognizer() # or LBPHFaceRecognizer_create()
 # Load training data
-recognizer.load(fname) # read() for LBPHFaceRecognizer_create()
+recognizer.load(fname) # change to read() for LBPHFaceRecognizer_create()
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-    # Turn off unlock LED when timeout
+    # Lock the door again when timeout
     if time.time() - lastUnlockedAt > unlockDuration:
         GPIO.output(relayPin, 0)
     
     frame = frame.array
     # Detect face
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    faces = faceCascade.detectMultiScale(gray, scaleFactor = 1.5, minNeighbors = 5)
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # Convert captured frame to grayscale
+    faces = faceCascade.detectMultiScale(gray, scaleFactor = 1.3, minNeighbors = 5) # Detect face(s) inside the frame
     for (x, y, w, h) in faces:
-        # Try to recognize the face a
+        # Try to recognize the face using recognizer
         roiGray = gray[y:y+h, x:x+w]
         id_, conf = recognizer.predict(roiGray)
         print(id_, conf)
@@ -63,7 +69,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         # retrieve the user name from database,
         # draw a rectangle around the face,
         # print the name of the user and
-        # light up the unlock LED for 5 secord
+        # unlock the door for 5 secords
         if conf <= 70:
             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
             # retrieve user name from database
@@ -71,6 +77,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
             result = db.fetchall()
             name = result[0][0]
             
+            # You may do anything below for detected user, e.g. unlock the door
             GPIO.output(relayPin, 1) # Unlock
             lastUnlockedAt = time.time()
             print("[Unlock] " + name + " (" + str(conf) + ")")
@@ -82,7 +89,8 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
             #cv2.putText(frame, 'No Match', (x+2,y+h-5), font, 1, (0,0,255), 2)
         
     cv2.imshow("Face Recognizer", frame)
-    rawCapture.truncate(0)
+    rawCapture.truncate(0) # Clear frame buffer for next frame
+    
     # Press ESC or 'q' to quit the program
     key = cv2.waitKey(1) & 0xff
     if key == 27 or key == ord('q'):

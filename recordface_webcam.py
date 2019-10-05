@@ -1,4 +1,9 @@
+# recordface_webcam.py
+# Capture face image of a person for face recognition, using webcam or IP cam
+#
+# Project: Face Recognition using OpenCV and Raspberry Pi
 # Ref: https://www.pytorials.com/face-recognition-using-opencv-part-2/
+# By: Mickey Chan @ 2019
 
 # Import required modules
 import cv2
@@ -16,12 +21,13 @@ if not os.path.exists(dirName):
     os.makedirs(dirName)
     print("DataSet Directory Created")
 
+# Ask for the user's name
 name = input("What's his/her Name?")
 
-imgCapture = 30
+imgCapture = 30 # Number of face image we have to capture
 saveFace = False
-frameColor = (0,0,255)
-userDir = "User_"
+frameColor = (0,0,255) # Frame color for detected face
+userDir = "User_" # Prefix of face image directory name
 beginTime = 0
 
 # Connect to video source
@@ -29,24 +35,28 @@ beginTime = 0
 vSource = 0 # first USB webcam
 vStream = cv2.VideoCapture(vSource)
 
-# Setup Classifier for detect face
+# Setup Classifier for detecting face
 faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 
+# Continuously capture video until collected require amount of face data
 count = 1
-frameRate = 5
+frameRate = 5 # Frequency for capturing face
 prevTime = 0
 while vStream.isOpened():
     timeElapsed = time.time() - prevTime
-    ok, frame = vStream.read()
+    ok, frame = vStream.read() # Read a frame
     if not ok: break
     cv2.putText(frame, "Press 'f' to start face capture", (10, 480-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255,255,255), 2)
     
     if timeElapsed > 1./frameRate:
         prevTime = time.time()
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        faces = faceCascade.detectMultiScale(gray, scaleFactor = 1.1, minNeighbors = 2)
+        # Find any face in the frame
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # Convert captured frame to grayscale
+        faces = faceCascade.detectMultiScale(gray, scaleFactor = 1.3, minNeighbors = 5) # Detect face(s) inside the frame
+        # If found, save captured face image
         for (x, y, w, h) in faces:
-            cv2.rectangle(frame, (x,y), (x+w, y+h), frameColor, 2)
+            cv2.rectangle(frame, (x,y), (x+w, y+h), frameColor, 2) # Draw a frame surrounding the face
+            # Save captured face data
             if saveFace:
                 roiGray = gray[y:y+h, x:x+w]
                 fileName = userDir + "/" + f'{count:02}' + ".jpg"
@@ -54,7 +64,7 @@ while vStream.isOpened():
                 cv2.imshow("face", roiGray)
                 count += 1
         
-    cv2.imshow('frame', frame)
+    cv2.imshow('frame', frame) # Show the video frame
     # Press 'f' to begin detect,
     # Press ESC or 'q' to quit
     key = cv2.waitKey(1) & 0xff
@@ -69,7 +79,7 @@ while vStream.isOpened():
         if not os.path.exists(userDir):
             os.makedirs(userDir)
     
-    # Quit face detection when captured 30 images
+    # Quit face detection when captured required faces
     if count > imgCapture:
         break
 
@@ -80,7 +90,7 @@ vStream.release()
 db.execute("INSERT INTO `users` (`name`) VALUES(?)", (name,))
 uid = db.lastrowid
 print("User ID:" + str(uid))
-# Rename temperary directory with UID
+# Rename temperary directory with USER ID
 newUserDir = os.path.join(dirName, str(uid))
 os.rename(userDir, newUserDir);
 #print("Renamed user dataset directory name to " + newUserDir)

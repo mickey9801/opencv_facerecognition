@@ -10,7 +10,7 @@ Face recognition sample with opencv-python.
 
    ```bash
    sudo apt-get update && sudo apt-get upgrade
-   sudo apt-get install python3-opencv
+   sudo apt-get install python3-opencv python3-picamera python3-numpy python3-pil
    ```
 * DB Browser for SQLite
    

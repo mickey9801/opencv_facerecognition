@@ -1,3 +1,10 @@
+# Capture.py
+# Worker object for capturing video frame
+#
+# Project: Face Recognition using OpenCV and Raspberry Pi
+# Ref: https://github.com/nrsyed/computer-vision/tree/master/multithread
+# By: Mickey Chan @ 2019
+
 from threading import Thread
 import cv2
 
@@ -19,7 +26,7 @@ class Capturer:
             if not self.grabbed:
                 self.stop()
             else:
-                (self.grabbed, self.frame) = self.stream.read()
+                (self.grabbed, self.frame) = self.stream.read() # Capture a video frame
         
         self.stream.release()
         return

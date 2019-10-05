@@ -1,4 +1,9 @@
+# trainer.py
+# Train recognizer using captured face images
+#
+# Project: Face Recognition using OpenCV and Raspberry Pi
 # Ref: https://www.pytorials.com/face-recognition-using-opencv-part-2/
+# By: Mickey Chan @ 2019
 
 # Import required modules
 import os
@@ -11,7 +16,7 @@ import time
 faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 recognizer = cv2.face.createLBPHFaceRecognizer() # or LBPHFaceRecognizer_create()
 
-# Setup directory for storing trained data
+# Create directory for storing trained data
 baseDir = os.path.dirname(os.path.abspath(__file__))
 imageDir = os.path.join(baseDir, "dataset")
 recognizerDir = os.path.join(baseDir, "recognizer")
@@ -37,20 +42,19 @@ for root, dirs, files in os.walk(imageDir):
             id_ = int(os.path.basename(root))
             print("UID:" + str(id_))
             
-            # Convert the face image to grey scale and convert pixel data to Numpy Array
+            # Convert the face image to grayscale and convert pixel data to Numpy Array
             faceImage = Image.open(path).convert("L")
             faceArray = np.array(faceImage, "uint8")
             
-            # Insert USER ID and face data into to dataset
+            # Insert USER ID and face data into dataset
             yIDs.append(id_)
             xFaces.append(faceArray)
             
             # Display the face image to be used for training
             cv2.imshow("training", faceArray)
-            # Allow user press a key to interrupt training process
             cv2.waitKey(10)
 
-# Training
+# Train recognizer and then save trained model
 recognizer.train(xFaces, np.array(yIDs))
 recognizer.save(recognizerDir + "/trainingData.yml")
 

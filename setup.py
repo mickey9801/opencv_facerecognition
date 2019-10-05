@@ -1,6 +1,11 @@
+# setup.py
+# Prepare environment for the project
+#
+# Project: Face Recognition using OpenCV and Raspberry Pi
 # Ref: https://www.pytorials.com/face-recognition-using-opencv-part-2/
+# By: Mickey Chan @ 2019
 
-# Setup database
+# Setup user database
 import sqlite3
 
 conn = sqlite3.connect('database.db')
